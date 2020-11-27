@@ -11,10 +11,10 @@ namespace FrescoQuestions
 {
     public static class UI
     {
-        public static Form1 FormHandler { get; private set; }
-        public static int FormWidth => FormHandler.Width;
-        public static int FormHeight => FormHandler.Height;
-        public static Control.ControlCollection Controls => FormHandler.Controls;
+        private static Form1 FormHandler { get; set; }
+        private static int FormWidth => FormHandler.Width;
+        private static int FormHeight => FormHandler.Height;
+        private static Control.ControlCollection Controls => FormHandler.Controls;
         public static List<Question> Questions => JsonConvert.DeserializeObject<List<Question>>(Encoding.UTF8.GetString(Properties.Resources.Questions));
         public static QuestionPath QuestionPath { get; private set; }
         private static bool Initialized { get; set; } = false;
@@ -82,7 +82,7 @@ namespace FrescoQuestions
             Renderer.Test.Render(QuestionPath.CurrentQuestion);
             CreateButtonsEvents();
         }
-        public static class Renderer
+        private static class Renderer
         {
             public static class Test
             {
