@@ -18,7 +18,7 @@ namespace FrescoQuestions
         public static List<Question> Questions => JsonConvert.DeserializeObject<List<Question>>(Encoding.UTF8.GetString(Properties.Resources.Questions));
         public static QuestionPath QuestionPath { get; private set; }
         private static bool Initialized { get; set; } = false;
-        public static bool IsTestFinished { get; private set; } = false;
+        public static bool IsTestFinished { get; private set; } = true;
         public static void Initialize<T>(T formHandler) where T : Form
         {
             if (formHandler == null) throw new NullReferenceException();
@@ -34,54 +34,38 @@ namespace FrescoQuestions
                 Initialized = true;
             }
         }
-        private static void CreateButtonsEvents()
-        {
-            Renderer.Test.LeftButton.Click += (s, e) =>
-            {
-                QuestionPath.SelectAnswer(AnswerType.Left);
-
-                if (QuestionPath.NextQuestion())
-                {
-                    Renderer.Test.Render(QuestionPath.CurrentQuestion);
-                }
-                else
-                {
-                    IsTestFinished = true;
-                    MessageBox.Show($"Your score: {QuestionPath.TotalCount}");
-                }
-            };
-            Renderer.Test.RightButton.Click += (s, e) =>
-            {
-                QuestionPath.SelectAnswer(AnswerType.Right);
-
-                if (QuestionPath.NextQuestion())
-                {
-                    Renderer.Test.Render(QuestionPath.CurrentQuestion);
-                }
-                else
-                {
-                    IsTestFinished = true;
-                    MessageBox.Show($"Your score: {QuestionPath.TotalCount}");
-                }
-            };
-        }
         public static void StartTest(QuestionPath questionPath)
         {
-            QuestionPath = questionPath;
-            Renderer.Test.Render(QuestionPath.CurrentQuestion);
-            CreateButtonsEvents();
+            if (IsTestFinished)
+            {
+                QuestionPath = questionPath;
+                Renderer.Test.Render(QuestionPath.CurrentQuestion);
+                Renderer.Test.CreateButtonsEvents();
+
+                IsTestFinished = false;
+            }
         }
         public static void StartTest(IEnumerable<Question> questions)
         {
-            QuestionPath = QuestionPath.Create(questions);
-            Renderer.Test.Render(QuestionPath.CurrentQuestion);
-            CreateButtonsEvents();
+            if (IsTestFinished)
+            {
+                QuestionPath = QuestionPath.Create(questions);
+                Renderer.Test.Render(QuestionPath.CurrentQuestion);
+                Renderer.Test.CreateButtonsEvents();
+
+                IsTestFinished = false;
+            }
         }
         public static void StartTest(params Question[] questions)
         {
-            QuestionPath = QuestionPath.Create(questions);
-            Renderer.Test.Render(QuestionPath.CurrentQuestion);
-            CreateButtonsEvents();
+            if (IsTestFinished)
+            {
+                QuestionPath = QuestionPath.Create(questions);
+                Renderer.Test.Render(QuestionPath.CurrentQuestion);
+                Renderer.Test.CreateButtonsEvents();
+
+                IsTestFinished = false;
+            }
         }
         public static class Components
         {
@@ -123,6 +107,37 @@ namespace FrescoQuestions
                     ControlCollection.Add(LeftButton);
                     ControlCollection.Add(RightButton);
                     ControlCollection.Add(QuestionLabel);
+                }
+                public static void CreateButtonsEvents()
+                {
+                    LeftButton.Click += (s, e) =>
+                    {
+                        QuestionPath.SelectAnswer(AnswerType.Left);
+
+                        if (QuestionPath.NextQuestion())
+                        {
+                            Render(QuestionPath.CurrentQuestion);
+                        }
+                        else
+                        {
+                            IsTestFinished = true;
+                            MessageBox.Show($"Your score: {QuestionPath.TotalCount}");
+                        }
+                    };
+                    RightButton.Click += (s, e) =>
+                    {
+                        QuestionPath.SelectAnswer(AnswerType.Right);
+
+                        if (QuestionPath.NextQuestion())
+                        {
+                            Render(QuestionPath.CurrentQuestion);
+                        }
+                        else
+                        {
+                            IsTestFinished = true;
+                            MessageBox.Show($"Your score: {QuestionPath.TotalCount}");
+                        }
+                    };
                 }
                 public static void Render(Question question)
                 {

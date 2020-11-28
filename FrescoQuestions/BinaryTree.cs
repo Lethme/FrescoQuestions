@@ -126,6 +126,15 @@ namespace Tree
             return Data.CompareTo(OtherNode.Data) == 0;
         }
         /// <summary>
+        /// Swap nodes data
+        /// </summary>
+        /// <param name="OtherNode">Second node to swap data with</param>
+        public void SwapData(BinaryTreeNode<T> OtherNode)
+        {
+            if (OtherNode == null) throw new NullReferenceException();
+            (Data, OtherNode.Data) = (OtherNode.Data, Data);
+        }
+        /// <summary>
         /// Leaf to string converter
         /// </summary>
         /// <returns>Leaf value as string value</returns>
@@ -467,7 +476,7 @@ namespace Tree
         /// </summary>
         /// <param name="passOrder">Pass order type</param>
         /// <returns>List of tree leafs</returns>
-        private List<BinaryTreeNode<T>> Pass(PassType passOrder = PassType.PreOrder)
+        public List<BinaryTreeNode<T>> Pass(PassType passOrder = PassType.PreOrder)
         {
             switch (passOrder)
             {
