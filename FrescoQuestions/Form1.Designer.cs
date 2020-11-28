@@ -30,17 +30,6 @@ namespace FrescoQuestions
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            // 
-            // Form1
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 402);
-            this.MinimumSize = new System.Drawing.Size(681, 441);
-            this.Name = "Form1";
-            this.Text = "Тест";
-            this.ResumeLayout(false);
-
         }
 
         #endregion

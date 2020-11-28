@@ -74,7 +74,7 @@ namespace Tree
         private BinaryTree<Question> QuestionTree { get; set; }
         public Question CurrentQuestion => CurrentNode.Data;
         private BinaryTreeNode<Question> CurrentNode { get; set; }
-        public int TotalCount { get; private set; }
+        public int TotalScore { get; private set; }
         public IEnumerable<Question> QuestionPathList
         { 
             get
@@ -139,7 +139,13 @@ namespace Tree
 
             return false;
         }
-        public void SelectAnswer(AnswerType answerType) => TotalCount += CurrentQuestion.SelectAnswer(answerType);
+        public void Reset()
+        {
+            QuestionTree.Mix();
+            CurrentNode = QuestionTree.Root;
+            TotalScore = 0;
+        }
+        public void SelectAnswer(AnswerType answerType) => TotalScore += CurrentQuestion.SelectAnswer(answerType);
         public static QuestionPath Create(BinaryTree<Question> questionTree) => new QuestionPath(questionTree);
         public static QuestionPath Create(params Question[] questions) => new QuestionPath(questions);
         public static QuestionPath Create(IEnumerable<Question> questions) => new QuestionPath(questions);

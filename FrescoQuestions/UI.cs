@@ -26,10 +26,35 @@ namespace FrescoQuestions
             if (!Initialized)
             {
                 FormHandler = formHandler;
+
+                /* Form properties */
+                FormHandler.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+                FormHandler.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+                FormHandler.MinimumSize = new System.Drawing.Size(681, 441);
+                FormHandler.ClientSize = FormHandler.MinimumSize;
+                FormHandler.Name = "Form1";
                 FormHandler.Text = Properties.Resources.AppName;
+                FormHandler.ResumeLayout(false);
+
+                /* Components events */
                 Components.ExitMenuItem.Click += (s, e) => { Application.Exit(); };
                 Components.AboutMenuItem.Click += (s, e) => { (new AboutForm()).ShowDialog(); };
+                Components.StartTestMenuItem.Click += (s, e) => 
+                {
+                    UI.StartTest(
+                        Question.Create("Вопрос 1", "a1", "a2", 5, AnswerType.Left),
+                        Question.Create("Вопрос 2", "b1", "b2", 3, AnswerType.Right),
+                        Question.Create("Вопрос 3", "c1", "c2", 7, AnswerType.Left),
+                        Question.Create("Вопрос 4", "d1", "d2", 2, AnswerType.Left),
+                        Question.Create("Вопрос 5", "e1", "e2", 4, AnswerType.Left),
+                        Question.Create("Вопрос 6", "f1", "f2", 8, AnswerType.Left),
+                        Question.Create("Вопрос 7", "g1", "g2", 5, AnswerType.Left)
+                    );
+                };
+
+                /* Initial rendering */
                 Renderer.Menu.Render();
+                Renderer.Test.CreateButtonsEvents();
 
                 Initialized = true;
             }
@@ -38,9 +63,9 @@ namespace FrescoQuestions
         {
             if (IsTestFinished)
             {
-                QuestionPath = questionPath;
+                if (QuestionPath == null) QuestionPath = questionPath;
+                else QuestionPath.Reset();
                 Renderer.Test.Render(QuestionPath.CurrentQuestion);
-                Renderer.Test.CreateButtonsEvents();
 
                 IsTestFinished = false;
             }
@@ -49,9 +74,9 @@ namespace FrescoQuestions
         {
             if (IsTestFinished)
             {
-                QuestionPath = QuestionPath.Create(questions);
+                if (QuestionPath == null) QuestionPath = QuestionPath.Create(questions);
+                else QuestionPath.Reset();
                 Renderer.Test.Render(QuestionPath.CurrentQuestion);
-                Renderer.Test.CreateButtonsEvents();
 
                 IsTestFinished = false;
             }
@@ -60,9 +85,9 @@ namespace FrescoQuestions
         {
             if (IsTestFinished)
             {
-                QuestionPath = QuestionPath.Create(questions);
+                if (QuestionPath == null) QuestionPath = QuestionPath.Create(questions);
+                else QuestionPath.Reset();
                 Renderer.Test.Render(QuestionPath.CurrentQuestion);
-                Renderer.Test.CreateButtonsEvents();
 
                 IsTestFinished = false;
             }
@@ -104,9 +129,9 @@ namespace FrescoQuestions
                     LeftButton.Text = question.QuestionAnswers.Item1;
                     LeftButton.Font = new System.Drawing.Font("Calibri Light", 12);
 
-                    ControlCollection.Add(LeftButton);
-                    ControlCollection.Add(RightButton);
-                    ControlCollection.Add(QuestionLabel);
+                    if (!ControlCollection.Contains(LeftButton)) ControlCollection.Add(LeftButton);
+                    if (!ControlCollection.Contains(RightButton)) ControlCollection.Add(RightButton);
+                    if (!ControlCollection.Contains(QuestionLabel)) ControlCollection.Add(QuestionLabel);
                 }
                 public static void CreateButtonsEvents()
                 {
@@ -121,7 +146,8 @@ namespace FrescoQuestions
                         else
                         {
                             IsTestFinished = true;
-                            MessageBox.Show($"Your score: {QuestionPath.TotalCount}");
+                            MessageBox.Show($"Your score: {QuestionPath.TotalScore}");
+                            Test.Release();
                         }
                     };
                     RightButton.Click += (s, e) =>
@@ -135,7 +161,8 @@ namespace FrescoQuestions
                         else
                         {
                             IsTestFinished = true;
-                            MessageBox.Show($"Your score: {QuestionPath.TotalCount}");
+                            MessageBox.Show($"Your score: {QuestionPath.TotalScore}");
+                            Test.Release();
                         }
                     };
                 }
@@ -145,6 +172,13 @@ namespace FrescoQuestions
                     foreach (var control in ControlCollection)
                     {
                         if (!Controls.Contains((Control)control)) Controls.Add((Control)control);
+                    }
+                }
+                public static void Release()
+                {
+                    foreach (var control in ControlCollection)
+                    {
+                        Controls.Remove((Control)control);
                     }
                 }
             }
