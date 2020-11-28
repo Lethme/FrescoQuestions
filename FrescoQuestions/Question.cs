@@ -75,17 +75,19 @@ namespace Tree
         public Question CurrentQuestion => CurrentNode.Data;
         private BinaryTreeNode<Question> CurrentNode { get; set; }
         public int TotalCount { get; private set; }
-        public IEnumerable<Question> QuestionPathList => ReversedQuestionPathList.Reverse();
-        private IEnumerable<Question> ReversedQuestionPathList
-        {
+        public IEnumerable<Question> QuestionPathList
+        { 
             get
             {
+                var questionList = new List<Question>();
                 var Node = CurrentNode;
                 do
                 {
-                    yield return Node.Data;
+                    questionList.Add(Node.Data);
                     Node = Node.Parent;
                 } while (Node != null);
+
+                return questionList.Reverse<Question>();
             }
         }
         public QuestionPath(BinaryTree<Question> questionTree)
