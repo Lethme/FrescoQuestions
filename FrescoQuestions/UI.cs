@@ -16,13 +16,13 @@ namespace FrescoQuestions
         private static int FormHeight => FormHandler.Height;
         private static Control.ControlCollection Controls => FormHandler.Controls;
         public static List<Question> Questions => JsonConvert.DeserializeObject<List<Question>>(Encoding.UTF8.GetString(Properties.Resources.Questions));
-        public static QuestionPath QuestionPath { get; private set; }
+        private static QuestionPath QuestionPath { get; set; }
         private static bool Initialized { get; set; } = false;
         public static bool IsTestFinished { get; private set; } = true;
-        public static void Initialize<T>(T formHandler) where T : Form
+        public static void Initialize<TForm>(TForm formHandler) where TForm : Form
         {
             if (formHandler == null) throw new NullReferenceException();
-            
+
             if (!Initialized)
             {
                 FormHandler = formHandler;
