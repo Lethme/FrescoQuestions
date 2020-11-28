@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FrescoQuestions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("No Walls Production")]
 [assembly: AssemblyProduct("FrescoQuestions")]
 [assembly: AssemblyCopyright("Copyright © 2020 No Walls Production")]
 [assembly: AssemblyTrademark("")]

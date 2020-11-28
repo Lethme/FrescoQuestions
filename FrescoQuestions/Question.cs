@@ -29,6 +29,30 @@ namespace Tree
         public int Score { get; set; }
         [JsonProperty("Right Answer")]
         public AnswerType RightAnswer { get; set; } = AnswerType.Left;
+        public String ChosenAnswerText 
+        {
+            get
+            {
+                switch (ChosenAnswer)
+                {
+                    case AnswerType.Left: return QuestionAnswers.Item1;
+                    case AnswerType.Right: return QuestionAnswers.Item2;
+                    default: return "Дед";
+                }
+            }
+        }
+        public String RightAnswerText 
+        {
+            get
+            {
+                switch (RightAnswer)
+                {
+                    case AnswerType.Left: return QuestionAnswers.Item1;
+                    case AnswerType.Right: return QuestionAnswers.Item2;
+                    default: return "Дед";
+                }
+            }
+        }
         public Question() {  }
         public Question(String question, Answer answers, int score, AnswerType answerType)
         {
@@ -144,6 +168,21 @@ namespace Tree
             QuestionTree.Mix();
             CurrentNode = QuestionTree.Root;
             TotalScore = 0;
+        }
+        public string WhoAmI()
+        {
+            switch (TotalScore)
+            {
+                case 0: { return "Бублик с дыркой"; }
+                case 1: { return "Валенок"; }
+                case 2: { return "Вафельница"; }
+                case 3: { return "Офисный планктон"; }
+                case 4: { return "Уверенный пользователь ПК"; }
+                case 5: { return "Студент ВПИ"; }
+                case 6: { return "Искусственный интеллект"; }
+                case 7: { return "Уже настолько преисполнились..."; }
+                default: return "Дед";
+            }
         }
         public void SelectAnswer(AnswerType answerType) => TotalScore += CurrentQuestion.SelectAnswer(answerType);
         public static QuestionPath Create(BinaryTree<Question> questionTree) => new QuestionPath(questionTree);

@@ -42,9 +42,9 @@ namespace Tree
         /// <typeparam name="T">Collection items type</typeparam>
         /// <param name="source">Collection</param>
         /// <returns>Indented string representation of collection</returns>
-        public static string AsIndentedString<T>(this IEnumerable<T> source)
+        public static string AsIndentedString<T>(this IEnumerable<T> source, string delimiter = "\n")
         {
-            return source.Select(item => item.ToString()).Aggregate((item1, item2) => $"{item1}\n{item2}");
+            return source.Select(item => item.ToString()).Aggregate((item1, item2) => $"{item1}{delimiter}{item2}");
         }
     }
 }

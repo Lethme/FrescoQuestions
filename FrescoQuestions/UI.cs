@@ -30,30 +30,27 @@ namespace FrescoQuestions
                 /* Form properties */
                 FormHandler.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
                 FormHandler.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-                FormHandler.MinimumSize = new System.Drawing.Size(681, 441);
+                FormHandler.MinimumSize = new System.Drawing.Size(800, 550);
                 FormHandler.ClientSize = FormHandler.MinimumSize;
                 FormHandler.Name = "Form1";
                 FormHandler.Text = Properties.Resources.AppName;
                 FormHandler.ResumeLayout(false);
+                FormHandler.Icon = Properties.Resources.Icon;
 
                 /* Components events */
-                Components.ExitMenuItem.Click += (s, e) => { Application.Exit(); };
-                Components.AboutMenuItem.Click += (s, e) => { (new AboutForm()).ShowDialog(); };
-                Components.StartTestMenuItem.Click += (s, e) => 
+                Components.ExitMenuItem.Click += (s, e) => 
                 {
-                    UI.StartTest(
-                        Question.Create("Вопрос 1", "a1", "a2", 5, AnswerType.Left),
-                        Question.Create("Вопрос 2", "b1", "b2", 3, AnswerType.Right),
-                        Question.Create("Вопрос 3", "c1", "c2", 7, AnswerType.Left),
-                        Question.Create("Вопрос 4", "d1", "d2", 2, AnswerType.Left),
-                        Question.Create("Вопрос 5", "e1", "e2", 4, AnswerType.Left),
-                        Question.Create("Вопрос 6", "f1", "f2", 8, AnswerType.Left),
-                        Question.Create("Вопрос 7", "g1", "g2", 5, AnswerType.Left)
-                    );
+                    if (Confirmation("Вы действительно хотите выйти в окно?", "Выйти в окно"))
+                    {
+                        Application.Exit();
+                    }
                 };
+                Components.AboutMenuItem.Click += (s, e) => { (new AboutForm()).ShowDialog(); };
+                Components.StartTestMenuItem.Click += (s, e) => { UI.StartTest(Questions); };
 
                 /* Initial rendering */
                 Renderer.Menu.Render();
+                StartTest(Questions);
                 Renderer.Test.CreateButtonsEvents();
 
                 Initialized = true;
@@ -65,6 +62,7 @@ namespace FrescoQuestions
             {
                 if (QuestionPath == null) QuestionPath = questionPath;
                 else QuestionPath.Reset();
+                Renderer.PostScreen.Release();
                 Renderer.Test.Render(QuestionPath.CurrentQuestion);
 
                 IsTestFinished = false;
@@ -76,6 +74,7 @@ namespace FrescoQuestions
             {
                 if (QuestionPath == null) QuestionPath = QuestionPath.Create(questions);
                 else QuestionPath.Reset();
+                Renderer.PostScreen.Release();
                 Renderer.Test.Render(QuestionPath.CurrentQuestion);
 
                 IsTestFinished = false;
@@ -87,10 +86,28 @@ namespace FrescoQuestions
             {
                 if (QuestionPath == null) QuestionPath = QuestionPath.Create(questions);
                 else QuestionPath.Reset();
+                Renderer.PostScreen.Release();
                 Renderer.Test.Render(QuestionPath.CurrentQuestion);
 
                 IsTestFinished = false;
             }
+        }
+        public static bool Confirmation(string ConfirmationText, string ConfirmationTitle, MessageBoxDefaultButton DefaultButton = MessageBoxDefaultButton.Button1)
+        {
+            if (ConfirmationText == String.Empty || ConfirmationTitle == String.Empty)
+                throw new ArgumentNullException();
+
+            var ConfirmationResult = MessageBox.Show
+            (
+                ConfirmationText,
+                ConfirmationTitle,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                DefaultButton
+            );
+
+            if (ConfirmationResult == DialogResult.Yes) return true;
+            return false;
         }
         public static class Components
         {
@@ -112,7 +129,7 @@ namespace FrescoQuestions
                 public static void InitializeComponents(Question question)
                 {
                     /* Question label properties */
-                    QuestionLabel.Text = question.QuestionText;
+                    QuestionLabel.Text = $"Ваш счёт: {QuestionPath.TotalScore}\n{question.QuestionText}";
                     QuestionLabel.Dock = DockStyle.Fill;
                     QuestionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
                     QuestionLabel.Font = new System.Drawing.Font("Calibri Light", 24);
@@ -146,8 +163,8 @@ namespace FrescoQuestions
                         else
                         {
                             IsTestFinished = true;
-                            MessageBox.Show($"Your score: {QuestionPath.TotalScore}");
                             Test.Release();
+                            PostScreen.Render();
                         }
                     };
                     RightButton.Click += (s, e) =>
@@ -161,8 +178,8 @@ namespace FrescoQuestions
                         else
                         {
                             IsTestFinished = true;
-                            MessageBox.Show($"Your score: {QuestionPath.TotalScore}");
                             Test.Release();
+                            PostScreen.Render();
                         }
                     };
                 }
@@ -235,6 +252,40 @@ namespace FrescoQuestions
                     foreach (var control in ControlCollection)
                     {
                         if (!Controls.Contains((Control)control)) Controls.Add((Control)control);
+                    }
+                }
+            }
+            public static class PostScreen
+            {
+                public static Label ResultLabel { get; private set; } = new Label();
+                public static Control.ControlCollection ControlCollection { get; private set; } = new Control.ControlCollection(new Control());
+                public static void InitializeComponents()
+                {
+                    ResultLabel.Dock = DockStyle.Fill;
+                    ResultLabel.Font = new System.Drawing.Font("Calibri Light", 10);
+                    ResultLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+
+                    var pathList = QuestionPath.QuestionPathList.Select(item => $"{item.QuestionText}\n{(item.ChosenAnswer == item.RightAnswer ? $":: {item.ChosenAnswerText} ::" : item.ChosenAnswerText)}");
+                    ResultLabel.Text = $"Ваш счёт: {QuestionPath.TotalScore}\n" +
+                        $"{(QuestionPath.TotalScore == 7 ? $"Вы уже настолько преисполнились..." : $"Вы – {QuestionPath.WhoAmI()}")}\n\n" +
+                        $"Ваши ответы: \n\n" +
+                        $"{pathList.AsIndentedString("\n\n")}";
+
+                    if (!ControlCollection.Contains(ResultLabel)) ControlCollection.Add(ResultLabel);
+                }
+                public static void Render()
+                {
+                    InitializeComponents();
+                    foreach (var item in ControlCollection)
+                    {
+                        if (!Controls.Contains((Control)item)) Controls.Add((Control)item);
+                    }
+                }
+                public static void Release()
+                {
+                    foreach (var control in ControlCollection)
+                    {
+                        Controls.Remove((Control)control);
                     }
                 }
             }

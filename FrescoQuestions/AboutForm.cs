@@ -18,6 +18,7 @@ namespace FrescoQuestions
             label1.Text = Properties.Resources.AppName;
             MaximumSize = new Size(Width, Height);
             MinimumSize = new Size(Width, Height);
+            Icon = Properties.Resources.Icon;
         }
     }
 }
