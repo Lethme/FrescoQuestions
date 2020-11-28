@@ -91,19 +91,19 @@ namespace Tree
         public QuestionPath(BinaryTree<Question> questionTree)
         {
             QuestionTree = questionTree;
-            MixTree();
+            QuestionTree.Mix();
             CurrentNode = questionTree.Root;
         }
         public QuestionPath(params Question[] questions)
         {
             QuestionTree = BinaryTree.Create(questions);
-            MixTree();
+            QuestionTree.Mix();
             CurrentNode = QuestionTree.Root;
         }
         public QuestionPath(IEnumerable<Question> questions)
         {
             QuestionTree = BinaryTree.Create(questions);
-            MixTree();
+            QuestionTree.Mix();
             CurrentNode = QuestionTree.Root;
         }
         public QuestionPath(String FileName)
@@ -116,7 +116,7 @@ namespace Tree
                 (
                     JsonConvert.DeserializeObject<List<Question>>(Reader.ReadToEnd())
                 );
-                MixTree();
+                QuestionTree.Mix();
                 CurrentNode = QuestionTree.Root;
             }
             catch { }
@@ -136,14 +136,6 @@ namespace Tree
             }
 
             return false;
-        }
-        public void MixTree()
-        {
-            var passList = QuestionTree.Pass(PassType.FloorsOrder);
-            for (var i = 0; i < passList.Count; i++)
-            {
-                passList[i].SwapData(passList[FrescoQuestions.Random.GenerateInt(0, passList.Count - 1, i)]);
-            }
         }
         public void SelectAnswer(AnswerType answerType) => TotalCount += CurrentQuestion.SelectAnswer(answerType);
         public static QuestionPath Create(BinaryTree<Question> questionTree) => new QuestionPath(questionTree);

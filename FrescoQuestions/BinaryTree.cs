@@ -410,6 +410,17 @@ namespace Tree
         /// Clear tree
         /// </summary>
         public void Clear() => Root = null;
+        /// <summary>
+        /// Mix tree leafs data
+        /// </summary>
+        public void Mix()
+        {
+            var passList = Pass(PassType.FloorsOrder);
+            for (var i = 0; i < passList.Count; i++)
+            {
+                passList[i].SwapData(passList[FrescoQuestions.Random.GenerateInt(0, passList.Count - 1, i)]);
+            }
+        }
         #endregion
         #region Search
         /// <summary>
@@ -476,7 +487,7 @@ namespace Tree
         /// </summary>
         /// <param name="passOrder">Pass order type</param>
         /// <returns>List of tree leafs</returns>
-        public List<BinaryTreeNode<T>> Pass(PassType passOrder = PassType.PreOrder)
+        private List<BinaryTreeNode<T>> Pass(PassType passOrder = PassType.PreOrder)
         {
             switch (passOrder)
             {
