@@ -40,7 +40,7 @@ namespace FrescoQuestions
             button2.Click += (s, e) =>
             {
                 var question = questionPath.GetQuestion((String)cumboBox1.SelectedItem);
-                var path = questionPath.PathFromRoot(question);
+                var path = questionPath.PathFromRoot(question).Select(item => $"{item.QuestionText}\n{item.ChosenAnswerText}");
 
                 MessageBox.Show
                 (

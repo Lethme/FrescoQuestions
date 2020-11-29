@@ -239,15 +239,24 @@ namespace Tree
         public IEnumerable<Question> PathFromRoot(Question question)
         {
             var Node = QuestionTree.FindNodeByValue(question);
+            var NodeList = new List<BinaryTreeNode<Question>>();
             var List = new List<Question>();
             
             while (Node != null)
             {
-                List.Add(Node.Data);
+                NodeList.Add(Node);
                 Node = Node.Parent;
             }
 
-            return List.Reverse<Question>();
+            NodeList.Reverse();
+
+            for (var i = 0; i < NodeList.Count - 1; i++)
+            {
+                if (NodeList[i].Left == NodeList[i + 1]) NodeList[i].Data.SelectAnswer(AnswerType.Left);
+                if (NodeList[i].Right == NodeList[i + 1]) NodeList[i].Data.SelectAnswer(AnswerType.Right);
+            }
+
+            return NodeList.Select(node => node.Data);
         }
         public void SelectAnswer(AnswerType answerType) => TotalScore += CurrentQuestion.SelectAnswer(answerType);
         public static QuestionPath Create(BinaryTree<Question> questionTree) => new QuestionPath(questionTree);
