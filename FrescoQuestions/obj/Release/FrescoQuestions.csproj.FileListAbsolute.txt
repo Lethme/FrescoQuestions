@@ -1,0 +1,15 @@
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.csprojAssemblyReference.cache
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.AboutForm.resources
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.Form1.resources
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.Properties.Resources.resources
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.csproj.GenerateResource.cache
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.csproj.CoreCompileInputs.cache
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\bin\Release\FrescoQuestions.exe.config
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\bin\Release\FrescoQuestions.exe
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\bin\Release\FrescoQuestions.pdb
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\bin\Release\Newtonsoft.Json.dll
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\bin\Release\Newtonsoft.Json.xml
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.csproj.CopyComplete
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.exe
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.pdb
+E:\Projects\Visual Studio\C#\FrescoQuestions\FrescoQuestions\obj\Release\FrescoQuestions.SolutionPathForm.resources

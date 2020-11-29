@@ -1,0 +1,13 @@
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\obj\Debug\StupidTestBinaryTreeLab7.Form1.resources
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\obj\Debug\StupidTestBinaryTreeLab7.Properties.Resources.resources
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\obj\Debug\StupidTestBinaryTreeLab7.csproj.GenerateResource.cache
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\obj\Debug\StupidTestBinaryTreeLab7.csproj.CoreCompileInputs.cache
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\bin\Debug\StupidTestBinaryTreeLab7.exe.config
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\bin\Debug\StupidTestBinaryTreeLab7.exe
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\bin\Debug\StupidTestBinaryTreeLab7.pdb
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\bin\Debug\Newtonsoft.Json.dll
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\bin\Debug\Newtonsoft.Json.xml
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\obj\Debug\StupidTestBinaryTreeLab7.csproj.CopyComplete
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\obj\Debug\StupidTestBinaryTreeLab7.exe
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\obj\Debug\StupidTestBinaryTreeLab7.pdb
+E:\Projects\Visual Studio\C#\StupidTestBinaryTreeLab7\StupidTestBinaryTreeLab7\obj\Debug\StupidTestBinaryTreeLab7.AboutForm.resources
