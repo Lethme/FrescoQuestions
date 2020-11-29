@@ -23,7 +23,8 @@ namespace Tree
             int index = 0;
             foreach (T element in source)
             {
-                if (predicate(element)) yield return index++;
+                if (predicate(element)) yield return index;
+                index++;
             }
         }
         /// <summary>

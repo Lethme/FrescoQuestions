@@ -439,7 +439,7 @@ namespace Tree
         /// <param name="Value">Value to search</param>
         /// <param name="passOrder">Order of tree pass</param>
         /// <returns>Node link</returns>
-        private BinaryTreeNode<T> FindNodeByValue(T Value, PassType passOrder = PassType.HybridOrder)
+        public BinaryTreeNode<T> FindNodeByValue(T Value, PassType passOrder = PassType.HybridOrder)
         {
             var PassList = FindNodeListByValue(Value, passOrder);
             if (PassList.Count != 0) return PassList[0];

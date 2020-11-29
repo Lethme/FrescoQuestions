@@ -47,6 +47,7 @@ namespace FrescoQuestions
                 };
                 Components.AboutMenuItem.Click += (s, e) => { (new AboutForm()).ShowDialog(); };
                 Components.StartTestMenuItem.Click += (s, e) => { UI.StartTest(Questions); };
+                Components.PathFromLeafMenuItem.Click += (s, e) => { (new SolutionPathForm(QuestionPath)).ShowDialog(); };
 
                 /* Initial rendering */
                 Renderer.Menu.Render();
@@ -116,6 +117,8 @@ namespace FrescoQuestions
             public static ToolStripMenuItem StartTestMenuItem { get; private set; } = new ToolStripMenuItem();
             public static ToolStripMenuItem ExitMenuItem { get; private set; } = new ToolStripMenuItem();
             public static ToolStripMenuItem AboutMenuItem { get; private set; } = new ToolStripMenuItem();
+            public static ToolStripMenuItem TreeAlgorithmMenuItem { get; private set; } = new ToolStripMenuItem();
+            public static ToolStripMenuItem PathFromLeafMenuItem { get; private set; } = new ToolStripMenuItem();
             public static MenuStrip MainMenu { get; private set; } = new MenuStrip();
         }
         private static class Renderer
@@ -207,7 +210,8 @@ namespace FrescoQuestions
                     /* Main menu properties */
                     Components.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
                     Components.TestMenuItem,
-                    Components.HelpMenuItem});
+                    Components.HelpMenuItem,
+                    Components.TreeAlgorithmMenuItem});
                     Components.MainMenu.Location = new System.Drawing.Point(0, 0);
                     Components.MainMenu.Name = "MainMenu";
                     Components.MainMenu.Size = new System.Drawing.Size(FormWidth, 24);
@@ -243,6 +247,16 @@ namespace FrescoQuestions
                     Components.AboutMenuItem.Name = "AboutMenuItem";
                     Components.AboutMenuItem.Size = new System.Drawing.Size(149, 22);
                     Components.AboutMenuItem.Text = "О программе";
+
+                    Components.PathFromLeafMenuItem.Name = "PathFromLeafMenuItem";
+                    Components.PathFromLeafMenuItem.Text = "Путь от заданного листа до решения";
+
+                    Components.TreeAlgorithmMenuItem.Name = "TreeAlgorithmMenuItem";
+                    Components.TreeAlgorithmMenuItem.Text = "Алгоритмы дерева";
+                    Components.TreeAlgorithmMenuItem.DropDownItems.AddRange(new ToolStripItem[]
+                    {
+                        Components.PathFromLeafMenuItem
+                    });
 
                     ControlCollection.Add(Components.MainMenu);
                 }

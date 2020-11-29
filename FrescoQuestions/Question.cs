@@ -53,6 +53,18 @@ namespace Tree
                 }
             }
         }
+        public String WrongAnswetText
+        {
+            get
+            {
+                switch (RightAnswer)
+                {
+                    case AnswerType.Left: return QuestionAnswers.Item2;
+                    case AnswerType.Right: return QuestionAnswers.Item1;
+                    default: return "Дед";
+                }
+            }
+        }
         public Question() {  }
         public Question(String question, Answer answers, int score, AnswerType answerType)
         {
@@ -87,7 +99,7 @@ namespace Tree
             if (ChosenAnswer == RightAnswer) return Score;
             return 0;
         }
-        public int CompareTo(Question other) => QuestionID.CompareTo(other.QuestionID);
+        public int CompareTo(Question other) => QuestionText.CompareTo(other.QuestionText);
         public override string ToString() => $"{QuestionText}\n{QuestionAnswers.Item1} / {QuestionAnswers.Item2}";
         public static Question Create(String question, Answer answers, int score, AnswerType answerType) => new Question(question, answers, score, answerType);
         public static Question Create(String question, (String, String) answers, int score, AnswerType answerType) => new Question(question, answers, score, answerType);
@@ -95,9 +107,21 @@ namespace Tree
     }
     public class QuestionPath
     {
+        public static List<String> TestRank = new List<string>()
+        {
+            "Бублик с дыркой",
+            "Валенок",
+            "Вафельница",
+            "Офисный планктон",
+            "Уверенный пользователь ПК",
+            "Студент ВПИ",
+            "Искусственный интеллект",
+            "Вы уже настолько преисполнились..."
+        };
         private BinaryTree<Question> QuestionTree { get; set; }
         public Question CurrentQuestion => CurrentNode.Data;
         private BinaryTreeNode<Question> CurrentNode { get; set; }
+        public IEnumerable<Question> QuestionList => QuestionTree.Pass(PassType.FloorsOrder);
         public int TotalScore { get; private set; }
         public IEnumerable<Question> QuestionPathList
         { 
@@ -163,6 +187,7 @@ namespace Tree
 
             return false;
         }
+        public Question GetQuestion(String questionText) => QuestionList.Where(item => item.QuestionText == questionText).First();
         public void Reset()
         {
             QuestionTree.Mix();
@@ -173,16 +198,56 @@ namespace Tree
         {
             switch (TotalScore)
             {
-                case 0: { return "Бублик с дыркой"; }
-                case 1: { return "Валенок"; }
-                case 2: { return "Вафельница"; }
-                case 3: { return "Офисный планктон"; }
-                case 4: { return "Уверенный пользователь ПК"; }
-                case 5: { return "Студент ВПИ"; }
-                case 6: { return "Искусственный интеллект"; }
-                case 7: { return "Уже настолько преисполнились..."; }
+                case 0: { return TestRank[0]; }
+                case 1: { return TestRank[1]; }
+                case 2: { return TestRank[2]; }
+                case 3: { return TestRank[3]; }
+                case 4: { return TestRank[4]; }
+                case 5: { return TestRank[5]; }
+                case 6: { return TestRank[6]; }
+                case 7: { return TestRank[7]; }
                 default: return "Дед";
             }
+        }
+        public IEnumerable<Question> PathToSolution(Question question, String rank)
+        {
+            var count = TestRank.IndexesWhere(x => x == rank).First();
+            var Node = QuestionTree.FindNodeByValue(question);
+            
+            while (Node != null)
+            {
+                if (count-- > 0)
+                {
+                    yield return Node.Data;
+                    switch (Node.Data.RightAnswer)
+                    {
+                        case AnswerType.Left: Node = Node.Left; break;
+                        case AnswerType.Right: Node = Node.Right; break;
+                    }
+                }
+                else
+                {
+                    yield return Node.Data;
+                    switch (Node.Data.RightAnswer)
+                    {
+                        case AnswerType.Left: Node = Node.Right; break;
+                        case AnswerType.Right: Node = Node.Left; break;
+                    }
+                }
+            }
+        }
+        public IEnumerable<Question> PathFromRoot(Question question)
+        {
+            var Node = QuestionTree.FindNodeByValue(question);
+            var List = new List<Question>();
+            
+            while (Node != null)
+            {
+                List.Add(Node.Data);
+                Node = Node.Parent;
+            }
+
+            return List.Reverse<Question>();
         }
         public void SelectAnswer(AnswerType answerType) => TotalScore += CurrentQuestion.SelectAnswer(answerType);
         public static QuestionPath Create(BinaryTree<Question> questionTree) => new QuestionPath(questionTree);
